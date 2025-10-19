@@ -48,7 +48,7 @@ def save_metrics(metrics: dict, report_dir="REPORT"):
 
 def evaluate_model(model, test_data: pd.DataFrame, live: Live) -> dict:
     X_test = test_data.iloc[:, :-1]
-    y_test = test_data.iloc[:, -1]
+    y_test = test_data.iloc[:, -1:]
 
     y_pred = model.predict(X_test)
 

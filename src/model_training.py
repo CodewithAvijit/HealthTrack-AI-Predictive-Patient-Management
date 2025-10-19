@@ -1,4 +1,5 @@
 from xgboost import XGBClassifier
+from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
 from sklearn.feature_selection import f_classif,SelectKBest
 import logging
@@ -21,7 +22,7 @@ def model_training(data):
     try:
         x=data.iloc[:,:-1]
         y=data.iloc[:,-1:]
-        xg=XGBClassifier()
+        xg=RandomForestClassifier()
         xg.fit(x,y)
         logger.debug(f"MODEL TRAINING COMPLETED")
         return xg

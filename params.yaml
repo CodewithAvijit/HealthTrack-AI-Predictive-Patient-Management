@@ -1,4 +1,4 @@
 feature_selection:
-  features: 4
+  features: 7
 data_ingestion:
-  test_size: 0.25
+  test_size: 0.2
