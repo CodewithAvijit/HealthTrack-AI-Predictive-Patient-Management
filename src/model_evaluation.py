@@ -11,29 +11,34 @@ from utils import logger_add
 # ✅ Import dvclive
 from dvclive import Live
 
+# Initialize logger
 logger = logger_add("logs", "model_evaluation")
 
 
 def load_params(params_path: str) -> dict:
+    """Load YAML parameters."""
     with open(params_path, 'r') as file:
         params = yaml.safe_load(file)
     logger.debug('Parameters retrieved from %s', params_path)
     return params
 
 
-def load_data(path):
+def load_data(path: str) -> pd.DataFrame:
+    """Load CSV data."""
     data = pd.read_csv(path)
-    logger.debug("DATA LOADED")
+    logger.debug("DATA LOADED from %s", path)
     return data
 
 
-def load_model(path):
+def load_model(path: str):
+    """Load trained model using joblib."""
     model = joblib.load(path)
     logger.debug("MODEL LOADED FROM %s", path)
     return model
 
 
 def save_metrics(metrics: dict, report_dir="REPORT"):
+    """Save evaluation metrics as JSON."""
     os.makedirs(report_dir, exist_ok=True)
     save_path = os.path.join(report_dir, "evaluation_metrics.json")
     with open(save_path, 'w') as f:
@@ -41,11 +46,12 @@ def save_metrics(metrics: dict, report_dir="REPORT"):
     logger.debug(f"METRICS SAVED SUCCESSFULLY TO {save_path}")
 
 
-def evaluate_model(model, test_data: pd.DataFrame, live: Live):
+def evaluate_model(model, test_data: pd.DataFrame, live: Live) -> dict:
     X_test = test_data.iloc[:, :-1]
     y_test = test_data.iloc[:, -1]
 
     y_pred = model.predict(X_test)
+
     accuracy = accuracy_score(y_test, y_pred)
     precision = precision_score(y_test, y_pred, average='weighted', zero_division=0)
     recall = recall_score(y_test, y_pred, average='weighted', zero_division=0)
@@ -55,11 +61,11 @@ def evaluate_model(model, test_data: pd.DataFrame, live: Live):
 
     logger.debug(f"MODEL EVALUATION METRICS: acc={accuracy:.4f}, prec={precision:.4f}, rec={recall:.4f}, f1={f1:.4f}")
 
-    # 🔹 Log metrics to dvclive Live
-    live.log("accuracy", accuracy)
-    live.log("precision", precision)
-    live.log("recall", recall)
-    live.log("f1_score", f1)
+    # 🔹 Correct way to log metrics to dvclive
+    live.log_metric("accuracy", accuracy)
+    live.log_metric("precision", precision)
+    live.log_metric("recall", recall)
+    live.log_metric("f1_score", f1)
     live.next_step()
 
     return {
@@ -81,11 +87,10 @@ def main():
     model = load_model("./models/model.pkl")
 
     metrics = evaluate_model(model, test_data, live)
-
     save_metrics(metrics)
+
     logger.debug("MODEL EVALUATION COMPLETED")
 
 
 if __name__ == "__main__":
     main()
-

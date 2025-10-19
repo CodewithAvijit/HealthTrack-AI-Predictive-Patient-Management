@@ -1,0 +1,112 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/data_ingestion.py
+    deps:
+    - path: data/healthcare_dataset.csv
+      hash: md5
+      md5: c678330f655c489eee0db86b4ba34ae9
+      size: 4343117
+    - path: src/data_ingestion.py
+      hash: md5
+      md5: 6de131e2c9dcb94984ca49680d43262b
+      size: 2016
+    params:
+      params.yaml:
+        data_ingestion.test_size: 0.2
+    outs:
+    - path: process/raw/test.csv
+      hash: md5
+      md5: 69a4d2dca9d27b40184c2fff9e983b7e
+      size: 868124
+    - path: process/raw/train.csv
+      hash: md5
+      md5: 50167959835b8bae823b790204172b4c
+      size: 3474033
+  data_processing:
+    cmd: python src/data_processing.py
+    deps:
+    - path: process/raw/test.csv
+      hash: md5
+      md5: 69a4d2dca9d27b40184c2fff9e983b7e
+      size: 868124
+    - path: process/raw/train.csv
+      hash: md5
+      md5: 50167959835b8bae823b790204172b4c
+      size: 3474033
+    - path: src/data_processing.py
+      hash: md5
+      md5: 56f31b118c8fe6e6fdd985309bcba54e
+      size: 2361
+    outs:
+    - path: process/interim/test.csv
+      hash: md5
+      md5: d1c973070ce80777e2fefce245b8b511
+      size: 961227
+    - path: process/interim/train.csv
+      hash: md5
+      md5: ae5601bcd6cb2cc8cae72cc797500633
+      size: 3878319
+  feature_selection:
+    cmd: python src/feature_selection.py
+    deps:
+    - path: process/interim/test.csv
+      hash: md5
+      md5: d1c973070ce80777e2fefce245b8b511
+      size: 961227
+    - path: process/interim/train.csv
+      hash: md5
+      md5: ae5601bcd6cb2cc8cae72cc797500633
+      size: 3878319
+    - path: src/feature_selection.py
+      hash: md5
+      md5: 1e53322dc03ac1707ebba893fdb06287
+      size: 2310
+    params:
+      params.yaml:
+        feature_selection.features: 5
+    outs:
+    - path: process/featured/test.csv
+      hash: md5
+      md5: bd202bda61f5fb37b2b2fd7e63171bb7
+      size: 649805
+    - path: process/featured/train.csv
+      hash: md5
+      md5: e2e5061d19f438a0f12226d83b53837c
+      size: 2631238
+  model_training:
+    cmd: python src/model_training.py
+    deps:
+    - path: process/featured/train.csv
+      hash: md5
+      md5: e2e5061d19f438a0f12226d83b53837c
+      size: 2631238
+    - path: src/model_training.py
+      hash: md5
+      md5: c992d1316142ca5418e6987bd1a8ba6d
+      size: 1361
+    outs:
+    - path: models/model.pkl
+      hash: md5
+      md5: 2fa5c23ef45e19a4c6e423120ce1ffe0
+      size: 1270536
+  model_evaluation:
+    cmd: python src/model_evaluation.py
+    deps:
+    - path: models/model.pkl
+      hash: md5
+      md5: 2fa5c23ef45e19a4c6e423120ce1ffe0
+      size: 1270536
+    - path: process/featured/test.csv
+      hash: md5
+      md5: bd202bda61f5fb37b2b2fd7e63171bb7
+      size: 649805
+    - path: src/model_evaluation.py
+      hash: md5
+      md5: 3adbedab34d352de373897088f5ebe51
+      size: 3089
+    outs:
+    - path: REPORT/evaluation_metrics.json
+      hash: md5
+      md5: 212765be050c6252a89a320a5c097370
+      size: 847

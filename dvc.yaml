@@ -48,8 +48,6 @@ stages:
     - src/model_evaluation.py
     outs:
     - REPORT/evaluation_metrics.json
-params:
-- dvclive/params.yaml
 metrics:
 - dvclive/metrics.json
 plots:

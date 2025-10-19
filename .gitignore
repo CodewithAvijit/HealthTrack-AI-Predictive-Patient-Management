@@ -54,3 +54,5 @@ dvclive/   # dvclive metrics/logs
 *.tar
 *.gz
 models/
+s3/
+.dvc/temp
