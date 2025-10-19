@@ -1,0 +1,57 @@
+stages:
+  data_ingestion:
+    cmd: python src/data_ingestion.py
+    deps:
+    - data/healthcare_dataset.csv
+    - src/data_ingestion.py
+    params:
+    - data_ingestion.test_size
+    outs:
+    - process/raw/train.csv
+    - process/raw/test.csv
+
+  data_processing:
+    cmd: python src/data_processing.py
+    deps:
+    - process/raw/train.csv
+    - process/raw/test.csv
+    - src/data_processing.py
+    outs:
+    - process/interim/train.csv
+    - process/interim/test.csv
+
+  feature_selection:
+    cmd: python src/feature_selection.py
+    deps:
+    - process/interim/train.csv
+    - process/interim/test.csv
+    - src/feature_selection.py
+    params:
+    - feature_selection.features
+    outs:
+    - process/featured/train.csv
+    - process/featured/test.csv
+
+  model_training:
+    cmd: python src/model_training.py
+    deps:
+    - process/featured/train.csv
+    - src/model_training.py
+    outs:
+    - models/model.pkl
+
+  model_evaluation:
+    cmd: python src/model_evaluation.py
+    deps:
+    - process/featured/test.csv
+    - models/model.pkl
+    - src/model_evaluation.py
+    outs:
+    - REPORT/evaluation_metrics.json
+params:
+- dvclive/params.yaml
+metrics:
+- dvclive/metrics.json
+plots:
+- dvclive/plots/metrics:
+    x: step

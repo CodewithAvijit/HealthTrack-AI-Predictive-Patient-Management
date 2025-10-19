@@ -1,17 +1,13 @@
 # ----------------------
-# Python
+# Python artifacts
 # ----------------------
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.pyd
 *.pdb
 *.egg
 *.egg-info/
-*.manifest
-*.spec
-*.so
 
 # Virtual environments
 venv/
@@ -23,49 +19,7 @@ ENV/
 .ipynb_checkpoints
 
 # ----------------------
-# DVC
-# ----------------------
-*.dvc
-.dvc/
-dvc.lock
-dvc.yaml
-
-# DVC cache (you probably don't want to commit)
-.cache/
-.cache.dvc/
-**/.dvc/cache/
-
-# ----------------------
-# Logs
-# ----------------------
-logs/
-*.log
-
-# ----------------------
-# Data
-# ----------------------
-data/
-*.csv
-*.tsv
-*.parquet
-*.h5
-*.npz
-*.zip
-*.tar
-*.gz
-
-# ----------------------
-# Models / Artifacts
-# ----------------------
-models/
-*.pkl
-*.joblib
-*.h5
-*.ckpt
-*.pt
-
-# ----------------------
-# OS / IDE files
+# Git / IDE / OS files
 # ----------------------
 .DS_Store
 Thumbs.db
@@ -75,6 +29,28 @@ Thumbs.db
 *.sublime-workspace
 
 # ----------------------
-# dvclive
+# Logs
 # ----------------------
-dvclive/
+logs/
+*.log
+
+# ----------------------
+# DVC / dvclive
+# ----------------------
+dvclive/   # dvclive metrics/logs
+.dvc/cache/  # DVC cache (managed by DVC)
+.cache/
+.cache.dvc/
+
+# ----------------------
+# Data & models (track with DVC, not Git)
+# ----------------------
+# Git ignores large files/folders, DVC tracks them
+*.csv
+*.parquet
+*.h5
+*.npz
+*.zip
+*.tar
+*.gz
+models/
