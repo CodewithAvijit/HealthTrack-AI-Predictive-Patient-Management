@@ -8,9 +8,13 @@ from unittest import mock
 from sklearn.base import BaseEstimator
 from dvclive import Live
 
-# Import functions from the source files
-from src.model_training import model_training
-from src.model_evaluation import load_model, save_metrics, evaluate_model
+# In src/_test.py:
+from data_ingestion import split_data
+from data_processing import processing_data
+from feature_selection import feature_selection
+from model_training import model_training
+from model_evaluation import load_model, save_metrics, evaluate_model
+# ... and so on
 
 # --- Fixtures for Mock Data and Dependencies ---
 
