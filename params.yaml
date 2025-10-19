@@ -1,0 +1,4 @@
+feature_selection:
+  features: 2
+data_ingestion:
+  test_size: 0.20

@@ -1,0 +1,80 @@
+# ----------------------
+# Python
+# ----------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyd
+*.pdb
+*.egg
+*.egg-info/
+*.manifest
+*.spec
+*.so
+
+# Virtual environments
+venv/
+env/
+ENV/
+*.env
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# ----------------------
+# DVC
+# ----------------------
+*.dvc
+.dvc/
+dvc.lock
+dvc.yaml
+
+# DVC cache (you probably don't want to commit)
+.cache/
+.cache.dvc/
+**/.dvc/cache/
+
+# ----------------------
+# Logs
+# ----------------------
+logs/
+*.log
+
+# ----------------------
+# Data
+# ----------------------
+data/
+*.csv
+*.tsv
+*.parquet
+*.h5
+*.npz
+*.zip
+*.tar
+*.gz
+
+# ----------------------
+# Models / Artifacts
+# ----------------------
+models/
+*.pkl
+*.joblib
+*.h5
+*.ckpt
+*.pt
+
+# ----------------------
+# OS / IDE files
+# ----------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ----------------------
+# dvclive
+# ----------------------
+dvclive/
