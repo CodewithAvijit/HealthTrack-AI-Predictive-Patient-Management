@@ -55,4 +55,3 @@ dvclive/   # dvclive metrics/logs
 *.gz
 models/
 s3/
-.dvc/temp
