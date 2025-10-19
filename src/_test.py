@@ -8,13 +8,12 @@ from unittest import mock
 from sklearn.base import BaseEstimator
 from dvclive import Live
 
-# In src/_test.py:
+# Imports are correct (since _test.py is in src/)
 from data_ingestion import split_data
 from data_processing import processing_data
 from feature_selection import feature_selection
 from model_training import model_training
 from model_evaluation import load_model, save_metrics, evaluate_model
-# ... and so on
 
 # --- Fixtures for Mock Data and Dependencies ---
 
@@ -59,7 +58,8 @@ def test_model_training_returns_estimator(sample_processed_data):
 
 # --- Tests for Model Evaluation (load_model, save_metrics, evaluate_model) ---
 
-@mock.patch('src.model_evaluation.joblib')
+# FIX: Change 'src.model_evaluation.joblib' to 'model_evaluation.joblib'
+@mock.patch('model_evaluation.joblib')
 def test_load_model_calls_joblib(mock_joblib, mock_model):
     """Test if load_model uses joblib.load with the correct path."""
     mock_joblib.load.return_value = mock_model
@@ -68,9 +68,12 @@ def test_load_model_calls_joblib(mock_joblib, mock_model):
     mock_joblib.load.assert_called_once_with(path)
     assert model is mock_model
 
-@mock.patch('src.model_evaluation.os.makedirs')
-@mock.patch('src.model_evaluation.open', new_callable=mock.mock_open)
-@mock.patch('src.model_evaluation.json.dump')
+# FIX: Change 'src.model_evaluation.os.makedirs' to 'model_evaluation.os.makedirs'
+# FIX: Change 'src.model_evaluation.open' to 'model_evaluation.open'
+# FIX: Change 'src.model_evaluation.json.dump' to 'model_evaluation.json.dump'
+@mock.patch('model_evaluation.os.makedirs')
+@mock.patch('model_evaluation.open', new_callable=mock.mock_open)
+@mock.patch('model_evaluation.json.dump')
 def test_save_metrics_writes_json(mock_json_dump, mock_open, mock_makedirs):
     """Test if save_metrics creates directory and dumps metrics as JSON."""
     metrics = {
