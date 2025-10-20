@@ -3,6 +3,7 @@ from sklearn.feature_selection import f_classif,SelectKBest
 import logging
 import os
 from utils import logger_add
+import joblib as jb
 import yaml
 logger=logger_add("logs","feature_selection")
 def load_params(params_path: str) -> dict:
@@ -32,7 +33,7 @@ def feature_selection(data,n):
         df=pd.DataFrame(df,columns=x.columns[fc.get_support()])
         df=pd.concat([df,y],axis=1)
         logger.debug(f"SELECTED FEATURES: [{df.columns.tolist()}]")
-        return df
+        return df,fc
     except Exception as e:
         logger.error("ERROR ",e)
         raise
@@ -47,7 +48,13 @@ def save_data(traindata,testdata,path):
     except Exception as e:
         logger.error("ERROR ",e)
         raise
-
+def save_feature_selector(fc,path):
+    try:
+        jb.dump(fc,os.path.join(path,"fc.pkl"))
+        logger.debug(f"FEATURE SELECTOR SAVED IN {path}")
+    except  Exception as e:
+        logger.error("Error ",e)
+        raise
 def main():
     try:
         params=load_params("params.yaml")
@@ -55,10 +62,12 @@ def main():
         trainpath="./process/interim/train.csv"
         testpath="./process/interim/test.csv"
         savepath="./process"
+        savefeatureselectorpath="./feature_selector"
         traindata=load_data(trainpath)
         testdata=load_data(testpath)
-        featuretrain=feature_selection(traindata,features)
+        featuretrain,fc=feature_selection(traindata,features)
         featuretest=testdata[featuretrain.columns.tolist()]
+        save_feature_selector(fc,savefeatureselectorpath)
         save_data(featuretrain,featuretest,savepath)
         logger.debug("FEATURE SELECTION COMPLETED ")
     except  Exception as e:

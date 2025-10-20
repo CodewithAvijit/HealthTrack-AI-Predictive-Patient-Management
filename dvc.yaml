@@ -19,6 +19,8 @@ stages:
     outs:
     - process/interim/train.csv
     - process/interim/test.csv
+    - processpipe/feature_pipe.pkl
+    - processpipe/target_pipe.pkl
 
   feature_selection:
     cmd: python src/feature_selection.py
@@ -31,6 +33,7 @@ stages:
     outs:
     - process/featured/train.csv
     - process/featured/test.csv
+    - feature_selector/fc.pkl
 
   model_training:
     cmd: python src/model_training.py
