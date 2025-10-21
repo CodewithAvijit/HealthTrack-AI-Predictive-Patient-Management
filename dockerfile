@@ -1,0 +1,20 @@
+#this is our baseimage
+
+FROM python:3.10.11-slim 
+
+WORKDIR /app
+
+COPY requirements.txt /app/requirements.txt
+
+RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt 
+
+COPY main.py /app/
+COPY models/model.pkl /app/models/model.pkl
+COPY processpipe/feature_pipe.pkl /app/processpipe/feature_pipe.pkl
+COPY processpipe/target_pipe.pkl /app/processpipe/target_pipe.pkl
+
+EXPOSE 8000
+
+CMD ["uvicorn","main:app","--host","0.0.0.0","--port","8000"]
+
+

@@ -5,6 +5,7 @@ from typing import Literal,Annotated
 import joblib as jb
 import pandas as pd
 import sklearn
+from fastapi.middleware.cors import CORSMiddleware
 
 MODEL_VERSION='v1.0.1'
 Model=jb.load("./models/model.pkl")
@@ -17,7 +18,13 @@ app=FastAPI(
     title="AI HEALTH CHECKER",
     description=f"THIS MODEL MADE USING {type(Model).__name__} Algorithm to predict Health"
 )
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],        # Origins allowed
+    allow_credentials=True,       # Allow cookies, headers
+    allow_methods=["*"],          # Allow all HTTP methods
+    allow_headers=["*"],          # Allow all headers
+)
 class Inputs(BaseModel):
     Age: Annotated[int,Field(description="AGE OF PATIENT",example=19)]
     Gender: Annotated[Literal['Male', 'Female'],Field(description="GENDER OF THE PATIENT",example='Male')]
