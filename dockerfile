@@ -9,9 +9,9 @@ COPY requirements.txt /app/requirements.txt
 RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt 
 
 COPY main.py /app/
-COPY models/model.pkl /app/models/model.pkl
-COPY processpipe/feature_pipe.pkl /app/processpipe/feature_pipe.pkl
-COPY processpipe/target_pipe.pkl /app/processpipe/target_pipe.pkl
+COPY models/ /app/models/
+COPY processpipe/ /app/processpipe/
+
 
 EXPOSE 8000
 
