@@ -53,5 +53,4 @@ dvclive/   # dvclive metrics/logs
 *.zip
 *.tar
 *.gz
-models/
 s3/
