@@ -66,16 +66,16 @@ def predict(rawdata,featurepipe,targetpipe,Model):
 
 def test1():
     value=predict(df1,featurepipe,targetpipe,Model)
-    assert value in targetpipe.classes_ , f"Unexpected class {value}"
+    assert value in targetpipe.named_steps['LABELENCODING'].categories_[0].tolist(), f"Unexpected class {value}"
 def test2():
     value=predict(df2,featurepipe,targetpipe,Model)
-    assert value in targetpipe.classes_ , f"Unexpected class {value}"
+    assert value in targetpipe.named_steps['LABELENCODING'].categories_[0].tolist(), f"Unexpected class {value}"
 def test3():
     value=predict(df3,featurepipe,targetpipe,Model)
-    assert value in targetpipe.classes_ , f"Unexpected class {value}"
+    assert value in targetpipe.named_steps['LABELENCODING'].categories_[0].tolist(), f"Unexpected class {value}"
 def test4():
     value=predict(df4,featurepipe,targetpipe,Model)
-    assert value in targetpipe.classes_ , f"Unexpected class {value}"
+    assert value in targetpipe.named_steps['LABELENCODING'].categories_[0].tolist(), f"Unexpected class {value}"
 def test5():
     value=predict(df5,featurepipe,targetpipe,Model)
-    assert value in targetpipe.classes_ , f"Unexpected class {value}"    
+    assert value in targetpipe.named_steps['LABELENCODING'].categories_[0].tolist(), f"Unexpected class {value}"    
