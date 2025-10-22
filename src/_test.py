@@ -25,7 +25,6 @@ df2 = pd.DataFrame([{
     "Billing Amount": 3616.89,
     "Room Number": 339,
     "Medication": "Aspirin",
-    "Test Results": "Inconclusive"
 }])
 
 df3 = pd.DataFrame([{
@@ -36,7 +35,6 @@ df3 = pd.DataFrame([{
     "Billing Amount": 36970.08,
     "Room Number": 372,
     "Medication": "Penicillin",
-    "Test Results": "Abnormal"
 }])
 
 df4 = pd.DataFrame([{
@@ -47,7 +45,6 @@ df4 = pd.DataFrame([{
     "Billing Amount": 44393.00,
     "Room Number": 148,
     "Medication": "Penicillin",
-    "Test Results": "Inconclusive"
 }])
 
 df5 = pd.DataFrame([{
@@ -58,16 +55,14 @@ df5 = pd.DataFrame([{
     "Billing Amount": 27554.92,
     "Room Number": 135,
     "Medication": "Ibuprofen",
-    "Test Results": "Abnormal"
 }])
 def predict(rawdata,featurepipe,targetpipe,Model):
         processdata=featurepipe.transform(rawdata)
-        processdata=pd.DataFrame(processdata,columns=featurepipe.get_feature_names_out())
+        processdata=pd.DataFrame(processdata,columns=rawdata.columns.tolist())
         processdata=processdata[features]
         rawouput=Model.predict(processdata)
         output=targetpipe.inverse_transform([rawouput])
-        output=output[0][0]
-        return output
+        return output[0][0]
 
 def test1():
     value=predict(df1,featurepipe,targetpipe,Model)
