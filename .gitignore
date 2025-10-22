@@ -54,3 +54,4 @@ dvclive/   # dvclive metrics/logs
 *.tar
 *.gz
 s3/
+.env
