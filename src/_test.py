@@ -60,10 +60,9 @@ df5 = pd.DataFrame([{
     "Medication": "Ibuprofen",
     "Test Results": "Abnormal"
 }])
-
 def predict(rawdata,featurepipe,targetpipe,Model):
         processdata=featurepipe.transform(rawdata)
-        processdata=pd.DataFrame(processdata,columns=rawdata.columns.tolist())
+        processdata=pd.DataFrame(processdata,columns=featurepipe.get_feature_names_out())
         processdata=processdata[features]
         rawouput=Model.predict(processdata)
         output=targetpipe.inverse_transform([rawouput])
